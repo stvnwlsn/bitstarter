@@ -1,2 +1,4 @@
 # files not being tracked
 hw*
+*.swp
+*.bak
