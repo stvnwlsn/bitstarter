@@ -56,6 +56,13 @@ var checkHtmlFile = function(htmlfile, checksfile) {
     return out;
 };
 
+var printJson = function(htmlfile, checksfile) {
+    var checkJson = checkHtmlFile(htmlfile, checksfile);
+    var outJson = JSON.stringify(checkJson, null, 4);
+    console.log(outJson);
+}
+
+
 if(require.main == module) {
     program
         .option('-c, --checks <val>', 'Path to checks.json', assertFileExists, CHECKSFILE_DEFAULT)
@@ -66,16 +73,12 @@ if(require.main == module) {
     {
         rest.get(program.url).on('complete', function(result){
             fs.writeFileSync('temp', result);
-            var checkJson = checkHtmlFile('temp', program.checks);
-            var outJson = JSON.stringify(checkJson, null, 4);
-            console.log(outJson);
+            printJson('temp', program.checks);
         });
     }
     else
     {
-        var checkJson = checkHtmlFile(program.file, program.checks);
-        var outJson = JSON.stringify(checkJson, null, 4);
-        console.log(outJson);
+        printJson(program.file, program.checks);
     }
 } else {
     exports.checkHtmlFile = checkHtmlFile;
